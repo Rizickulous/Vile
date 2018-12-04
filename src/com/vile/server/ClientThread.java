@@ -196,6 +196,7 @@ public class ClientThread implements Runnable {
 		 * below) and write it to a string which will be sent through the PrintWriter to
 		 * the clients socket.
 		 */
+
 		for (int i = 0; i < Game.otherPlayers.size(); i++) {
 			ServerPlayer sP = Game.otherPlayers.get(i);
 
@@ -351,6 +352,98 @@ public class ClientThread implements Runnable {
 		// The client will be sending in data about themselves (Will be set to the
 		// Game.otherPlayers.get(index of client) data), data from activatedButtons,
 		// activatedDoors, activatedElevators, itemsAdded, and addedBullets.
+
+
+		String currentLine = "";
+
+		try {
+			currentLine = in.readLine();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		String[] elements = currentLine.split("\\?");
+
+		//take the first element ServerPlayer and break it down
+		String[] playerList = elements[0].split(":");
+
+		//assign each piece of the element to the ServerPlayer object
+		ServerPlayer sP = Game.otherPlayers.get(clientID);
+//		sP.ID = Integer.parseInt(playerList[0]);
+//		sP.health = Integer.parseInt(playerList[1]);
+//		sP.maxHealth = Integer.parseInt(playerList[2]);
+//		sP.armor = Integer.parseInt(playerList[3]);
+//		sP.environProtectionTime = Integer.parseInt(playerList[4]);
+//		sP.immortality = Integer.parseInt(playerList[5]);
+//		sP.vision = Integer.parseInt(playerList[6]);
+//		sP.invisibility = Integer.parseInt(playerList[7]);
+//		sP.playerHurt = Integer.parseInt(playerList[8]);
+//		sP.height = Double.parseDouble(playerList[9]);
+//		sP.maxHeight = Double.parseDouble(playerList[10]);
+
+		sP.x = Double.parseDouble(playerList[0]);
+		sP.y = Double.parseDouble(playerList[1]);
+		sP.z = Double.parseDouble(playerList[2]);
+		sP.rotation = Double.parseDouble(playerList[3]);
+
+		Game.otherPlayers.add(sP);
+
+//		sP.zEffects = Double.parseDouble(playerList[15]);
+//		sP.xEffects = Double.parseDouble(playerList[16]);
+//		sP.yEffects = Double.parseDouble(playerList[17]);
+//		sP.noClipOn = Boolean.parseBoolean(playerList[18]);
+//		sP.flyOn = Boolean.parseBoolean(playerList[19]);
+//		sP.superSpeedOn = Boolean.parseBoolean(playerList[20]);
+//		sP.godModeOn = Boolean.parseBoolean(playerList[21]);
+//		sP.unlimitedAmmoOn = Boolean.parseBoolean(playerList[22]);
+//		sP.forceCrouch = Boolean.parseBoolean(playerList[23]);
+//		sP.hasGreenKey = Boolean.parseBoolean(playerList[24]);
+//		sP.hasRedKey = Boolean.parseBoolean(playerList[25]);
+//		sP.hasYellowKey = Boolean.parseBoolean(playerList[26]);
+//		sP.hasBlueKey = Boolean.parseBoolean(playerList[27]);
+//		sP.resurrections = Integer.parseInt(playerList[28]);
+//		sP.alive = Boolean.parseBoolean(playerList[29]);
+//		sP.weaponEquipped = Integer.parseInt(playerList[30]);
+
+		//split weaponList into an array
+//		String[] weaponList = playerList[31].split(",");
+//
+//		for (int i = 0; i < weaponList.length; i++) {
+//			sP.weapons[i].weaponID = Integer.parseInt(weaponList[0]);
+//			sP.weapons[i].name = Integer.parseInt(weaponList[1]);
+//			sP.weapons[i].damage = Integer.parseInt(weaponList[2]);
+//			sP.weapons[i].ammo = Integer.parseInt(weaponList[3]);
+//			//sP.weapons[i].cartridges = Integer.parseInt(weaponList[0]);
+//			sP.weapons[i].weaponID = Integer.parseInt(weaponList[0]);
+//			sP.weapons[i].weaponID = Integer.parseInt(weaponList[0]);
+//		}
+		//sP.clientMessages
+		//sp.audioToPlay
+		//sp.audioDistances
+		//sp.kills
+		//sp.deaths
+
+		String[] bulletStrings = elements[1].split(":");
+
+		for(int i = 0; i < bulletStrings.length; i++){
+			String[] boolets = bulletStrings[i].split(","); //array is delimited by ,
+			Bullet b = new Bullet(
+					Integer.parseInt(boolets[0]), //damage
+					Double.parseDouble(boolets[1]), //speed
+					Double.parseDouble(boolets[2]), //x
+					Double.parseDouble(boolets[3]), //y
+					Double.parseDouble(boolets[4]), //z
+					Integer.parseInt(boolets[5]), //ID
+					Double.parseDouble(boolets[6]), //rotation
+					Boolean.parseBoolean(boolets[7]) //criticalHit
+			);
+			Game.bullets.add(b);
+		}
+
+		//what is the format of the string that the server receives?
+		//I might be delimiting wrong
+		//It looks like the string might be a variable length
+		//what is the output of this function
+
 
 		/*
 		 * String currentLine = ""; while(currentLine = in.readLine()){ TODO put code
